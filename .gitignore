@@ -1,0 +1,7 @@
+/.env
+/node_modules/
+/vendor/
+/public/Assets/Client/Styles/
+package-lock.json
+composer.lock
+logs/php-errors.log

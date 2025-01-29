@@ -1,0 +1,154 @@
+/* CSS tuỳ chỉnh thêm */
+
+.aboutContainer{
+    width: 70%;
+    margin: 0 auto;
+}
+/* CSS tuỳ chỉnh thêm */
+.contact-content h5 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.contact-content p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.contact-image {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.contact-image img {
+    width: 100%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.images-gmdt {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.images-gmdt .col-3 img {
+    width: 100px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.images-gmdt .col-3 h5 {
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+
+
+/* Bootstrap class additions */
+.border-title-bottom-custom {
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.contact-content {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.images-gmdt .col-3 {
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.images-gmdt .col-3:hover {
+    transform: scale(1.05);
+}
+
+.border-title-bottom-custom {
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.contact-content {
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.images-gmdt .col-3 {
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.images-gmdt .col-3:hover {
+    transform: scale(1.05);
+}
+
+/* Contact form styling */
+.contact-wrap {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-wrap input, .contact-wrap textarea {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.contact-wrap input[type="submit"] {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.contact-wrap input[type="submit"]:hover {
+    background: #0056b3;
+}
+
+.info-wrap {
+    background: #007bff;
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+}
+
+.info-wrap .icon {
+    font-size: 24px;
+    margin-right: 15px;
+    color: #fff;
+}
+
+.info-wrap a {
+    color: #ffdd57;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.info-wrap a:hover {
+    text-decoration: underline;
+}
