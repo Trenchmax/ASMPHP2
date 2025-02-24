@@ -1,30 +1,53 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-
-<?php 
+<?php
 $this->start('main_content');
 ?>
 <div class="col-12 grid-margin">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Thêm sản phẩm</h4>
-            <form class="forms-sample" action="/admin/add-product" method="post" enctype="multipart/form-data">
+
+            <?php if (!empty($_SESSION['errors'])): ?>
+                <div class="alert alert-danger">
+                    <ul>
+                        <?php foreach ($_SESSION['errors'] as $error): ?>
+                            <li><?php echo htmlspecialchars($error); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php unset($_SESSION['errors']); ?>
+            <?php endif; ?>
+
+            <?php if (!empty($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($_SESSION['success']); ?>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+
+            <form class="forms-sample" action="/admin/product/create" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="method" value="POST">
 
                 <div class="form-group">
                     <label for="name">Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Name">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="description">Mô tả sản phẩm</label>
-                    <textarea class="form-control" id="description" rows="4" name="description"></textarea>
+                    <textarea class="form-control" id="description" rows="4" name="description"><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="brand_id">Thương hiệu</label>
                     <select class="form-control" id="brand_id" name="brand_id">
                         <option value="">Chọn thương hiệu</option>
+                        <?php foreach ($brands as $brand): ?>
+                            <option value="<?php echo htmlspecialchars($brand['id']); ?>" <?php echo (isset($_POST['brand_id']) && $_POST['brand_id'] == $brand['id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($brand['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
@@ -32,39 +55,23 @@ $this->start('main_content');
                     <label for="category_id">Phân loại sản phẩm</label>
                     <select class="form-control" id="category_id" name="category_id">
                         <option value="">Chọn loại sản phẩm</option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php echo htmlspecialchars($category['id']); ?>" <?php echo (isset($_POST['category_id']) && $_POST['category_id'] == $category['id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($category['name']); ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="price">Giá tiền</label>
-                    <input type="number" class="form-control" name="price" id="price" placeholder="Price">
+                    <input type="number" class="form-control" name="price" id="price" placeholder="Price" value="<?php echo htmlspecialchars($_POST['price'] ?? ''); ?>">
                 </div>
 
                 <div class="form-group">
                     <label for="quantity">Số lượng</label>
-                    <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Quantity">
+                    <input type="number" class="form-control" name="total_quantity" id="quantity" placeholder="Quantity" value="<?php echo htmlspecialchars($_POST['total_quantity'] ?? ''); ?>">
                 </div>
-
-                <div class="form-group">
-                    <label for="discountRate">Giá giảm (%)</label>
-                    <input type="number" class="form-control" name="discountRate" id="discountRate" placeholder="Discount Rate">
-                </div>
-
-                <div class="form-group">
-                    <label for="weight">Trọng lượng (kg)</label>
-                    <input type="number" class="form-control" name="weight" id="weight" placeholder="Weight">
-                </div>
-
-                <div class="form-group">
-                    <label for="height">Chiều cao (cm)</label>
-                    <input type="number" class="form-control" name="height" id="height" placeholder="Height">
-                </div>
-
-                <div class="form-group">
-                    <label for="width">Chiều rộng (cm)</label>
-                    <input type="number" class="form-control" name="width" id="width" placeholder="Width">
-                </div>
-
                 <div class="form-group">
                     <label for="image">Hình ảnh</label>
                     <input type="file" name="image" class="form-control file-upload-info" placeholder="Upload Image">
@@ -79,39 +86,9 @@ $this->start('main_content');
                     <label>Trạng thái</label>
                     <div class="form-check form-check-success">
                         <select class="form-control form-control-sm col-lg-2" name="status">
-                            <option value="1">Hoạt động</option>
-                            <option value="2">Không hoạt động</option>
+                            <option value="1" <?php echo (isset($_POST['status']) && $_POST['status'] == 1) ? 'selected' : ''; ?>>Hoạt động</option>
+                            <option value="2" <?php echo (isset($_POST['status']) && $_POST['status'] == 2) ? 'selected' : ''; ?>>Không hoạt động</option>
                         </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="">Thuộc tính</label>
-                    <a href="javascript:void(0)" onclick="create()" class="btn btn-primary btn-sm">ADD</a>
-                    <div id="multi_properties">
-                        <div class="row items_properties mb-3">
-                            <div class="col-5">
-                                <label for="">Tên thuộc tính</label>
-                                <select name="option_id[]" class="form-select">
-                                    <option value="">Chọn thuộc tính</option>
-                                </select>
-                            </div>
-                            <div class="col-5">
-                                <label for="option_vl_name">Giá trị</label>
-                                <input type="text" class="form-control" id="option_vl_name" name="option_vl_name[]" placeholder="Giá trị">
-                            </div>
-                            <div class="col-1">
-                                <label for="">&nbsp;</label>
-                                <a href="javascript:void(0)" onclick="delete_(this)" class="btn btn-danger btn-sm d-block">Xóa</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="border-top">
-                    <div class="card-body">
-                        <button type="reset" class="btn btn-danger text-white">Làm lại</button>
-                        <button type="submit" class="btn btn-primary">Thêm</button>
                     </div>
                 </div>
 
@@ -122,34 +99,6 @@ $this->start('main_content');
     </div>
 </div>
 
-<script>
-    function create() {
-        $("#multi_properties").append(`
-            <div class="row items_properties mb-3">
-                <div class="col-5">
-                    <label for="">Tên thuộc tính</label>
-                    <select name="option_id[]" class="form-select">
-                        <option value="">Chọn thuộc tính</option>
-                    </select>
-                </div>
-                <div class="col-5">
-                    <label for="option_vl_name">Giá trị</label>
-                    <input type="text" class="form-control" id="option_vl_name" name="option_vl_name[]" placeholder="Giá trị">
-                </div>
-                <div class="col-1">
-                    <label for="">&nbsp;</label>
-                    <a href="javascript:void(0)" onclick="delete_(this)" class="btn btn-danger btn-sm d-block">Xóa</a>
-                </div>
-            </div>
-        `);
-    }
-
-    function delete_(__this) {
-        $(__this).closest(".items_properties").remove();
-    }
-</script>
-
 <?php
-
 $this->stop();
 ?>

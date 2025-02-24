@@ -1,9 +1,11 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-
-<?php 
+<?php
 $this->start('main_content');
+
+
 ?>
+
 <div class="main-panel">
     <div class="content-wrapper">
         <div class="row mt-4">
@@ -16,7 +18,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Tên người mua</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="name" value="" />
+                                        <input disabled type="text" class="form-control" name="name" value="<?= htmlspecialchars($orderData['user_name']) ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -24,7 +26,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Số điện thoại</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="phone" value="" />
+                                        <input disabled type="text" class="form-control" name="phone" value="<?= htmlspecialchars($orderData['phone']) ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +36,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="email" value="" />
+                                        <input disabled type="text" class="form-control" name="email" value="<?= htmlspecialchars($orderData['email']) ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +44,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Địa chỉ</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="address" value="" />
+                                        <input disabled type="text" class="form-control" name="address" value="<?= htmlspecialchars($orderData['address']) ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +54,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Tổng giá đơn hàng</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="price" value="" />
+                                        <input disabled type="text" class="form-control" name="price" value="<?= number_format($orderData['total_price'], 0, ',', '.') ?> VND" />
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +62,7 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Trạng thái</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="status" value="" />
+                                        <input disabled type="text" class="form-control" name="status" value="<?= $orderData['order_status'] == 1 ? 'Đã xử lý' : 'Chưa xử lý' ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -77,22 +79,27 @@ $this->start('main_content');
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
+                                    <?php if (!empty($products)): ?>
+                                        <?php foreach ($products as $index => $product): ?>
+                                            <tr>
+                                                <td><?= $index + 1 ?></td>
+                                                <td><?= htmlspecialchars($product['product_name']) ?></td>
+                                                <td><?= number_format($product['price'], 0, ',', '.') ?> VND</td>
+                                                <td><?= $product['quantity'] ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="4" class="text-center">Không có sản phẩm nào trong đơn hàng này.</td>
+                                        </tr>
+                                    <?php endif; ?>
+
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="alert alert-warning" role="alert" style="display: none;">
-                            Không có thông tin chi tiết sản phẩm cho đơn hàng này.
-                        </div>
-
                         <div class="row justify-content-end">
-                            <a href="?url=orders" class="btn btn-primary">Trở về</a>
+                            <a href="/admin/orders" class="btn btn-primary">Trở về</a>
                         </div>
                     </div>
                 </div>
@@ -101,8 +108,4 @@ $this->start('main_content');
     </div>
 </div>
 
-
-<?php
-
-$this->stop();
-?>
+<?php $this->stop(); ?>

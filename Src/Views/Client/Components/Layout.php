@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tài liệu</title>
-    <?= $this->section('styles') ?>
+    <?= $this->section('styles');
+  
+    ?>
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/Styles/main.css">
 </head>
 
@@ -33,12 +36,18 @@
             <!-- Stylesheet tùy chỉnh -->
             <link type="text/css" rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/css/style.css" />
             <link type="text/css" rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/css/About.css" />
+            <link type="text/css" rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/css/MyAccount.css" />
 
             <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
 
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
+            <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
             <link rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/css/style.css">
+            <!-- Bootstrap CSS -->
+            <!-- Bootstrap JavaScript -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
 
         </head>
 
@@ -71,84 +80,61 @@
                                     <form>
                                         <select class="input-select">
                                             <option value="0">Các danh mục</option>
-                                            <option value="1">Danh mục 01</option>
-                                            <option value="1">Danh mục 02</option>
+                                            <?php
+                                         
+                                            foreach ($categories as $category) {
+                                                echo '<option value="' . htmlspecialchars($category['id']) . '">' . htmlspecialchars($category['name']) . '</option>';
+                                            }
+                                            ?>
                                         </select>
                                         <input class="input" placeholder="Tìm kiếm ở đây">
                                         <button class="search-btn">Tìm kiếm</button>
                                     </form>
                                 </div>
                             </div>
+
                             <!-- /SEARCH BAR -->
 
                             <!-- ACCOUNT -->
-                            <div class="col-md-3 clearfix">
+                            <!-- ACCOUNT -->
+                            <div class="col-md-3 clearfix me-">
                                 <div class="header-ctn">
-                                    <!-- Wishlist -->
+                                    <!-- Xây dựng PC -->
                                     <div>
                                         <a href="#">
-                                        <i class="fa fa-wrench"></i>
-
+                                            <i class="fa fa-wrench"></i>
                                             <span>Xây dựng PC</span>
                                             <div class="qty">2</div>
                                         </a>
                                     </div>
-                                    <!-- /Wishlist -->
 
-                                    <!-- Cart -->
+                                    <!-- Tài khoản -->
+                                    <div>
+                                        <a href="<?= isset($_SESSION['user']) ? '/Account' : '/loginForm'; ?>">
+                                            <i class="fa fa-user"></i>
+                                            <span>
+                                                <?= isset($_SESSION['user']) ? $_SESSION['user']['name'] : 'Tài khoản'; ?>
+                                            </span>
+                                        </a>
+                                    </div>
+
+                                    <!-- Giỏ hàng -->
                                     <div class="dropdown">
-                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                        <a href="/cart">
                                             <i class="fa fa-shopping-cart"></i>
                                             <span>Giỏ hàng</span>
                                             <div class="qty">3</div>
                                         </a>
-                                        <div class="cart-dropdown">
-                                            <div class="cart-list">
-                                                <div class="product-widget">
-                                                    <div class="product-img">
-                                                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product01.png" alt="">
-                                                    </div>
-                                                    <div class="product-body">
-                                                        <h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-                                                        <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                                    </div>
-                                                    <button class="delete"><i class="fa fa-close"></i></button>
-                                                </div>
-
-                                                <div class="product-widget">
-                                                    <div class="product-img">
-                                                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product02.png" alt="">
-                                                    </div>
-                                                    <div class="product-body">
-                                                        <h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-                                                        <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                                    </div>
-                                                    <button class="delete"><i class="fa fa-close"></i></button>
-                                                </div>
-                                            </div>
-                                            <div class="cart-summary">
-                                                <small>3 sản phẩm đã chọn</small>
-                                                <h5>TỔNG CỘNG: $2940.00</h5>
-                                            </div>
-                                            <div class="cart-btns">
-                                                <a href="#">Xem giỏ hàng</a>
-                                                <a href="/checkout">Thanh toán <i class="fa fa-arrow-circle-right"></i></a>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <!-- /Cart -->
-
-                                    <!-- Menu Toogle -->
-                                    <div class="menu-toggle">
-                                        <a href="#">
-                                            <i class="fa fa-bars"></i>
-                                            <span>Menu</span>
-                                        </a>
-                                    </div>
-                                    <!-- /Menu Toogle -->
                                 </div>
                             </div>
+
+
+
                             <!-- /ACCOUNT -->
+
+                            <!-- /ACCOUNT -->
+
                         </div>
                         <!-- row -->
                     </div>
@@ -275,6 +261,7 @@
     <!-- /FOOTER -->
 
     <!-- jQuery Plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/js/jquery.min.js"></script>
     <script src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/js/bootstrap.min.js"></script>
     <script src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/js/slick.min.js"></script>

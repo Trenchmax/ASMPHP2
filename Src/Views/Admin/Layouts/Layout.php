@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Bee Technova Admin</title>
-    <?= $this->section('styles') ?>
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="<?= $_ENV['APP_URL'] ?>\node_modules\typicons.font\src\font/typicons.css">
@@ -135,7 +134,7 @@
                             <a class="nav-link" href="/admin/product/add">Thêm sản phẩm</a>
                         </div>
                     </li>
-                  
+
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#categoriesSubmenu">
                             <i class="typcn typcn-th-small menu-icon"></i>
@@ -156,7 +155,7 @@
                             <a class="nav-link" href="/admin/brand/add">Thêm thương hiệu</a>
                         </div>
                     </li>
-                  
+
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#commentsSubmenu">
                             <svg class="typcn typcn-ticket menu-icon" xmlns="http://www.w3.org/2000/svg" height="20px"
@@ -204,6 +203,9 @@
         </div>
     </div>
     <?= $this->section('scripts') ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="<?= $_ENV['APP_URL'] ?>/public/assets/admin/vendors/js/vendor.bundle.base.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

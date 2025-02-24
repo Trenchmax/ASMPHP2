@@ -1,7 +1,9 @@
 <?php $this->layout('Client/Components/Layout'); ?>
 
 
-<?php $this->start('main_content') ?>
+<?php $this->start('main_content');
+
+?>
 <!-- Insert nội dung vào đây -->
 
 
@@ -19,51 +21,29 @@
             <!-- Product main img -->
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product01.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product03.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product06.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product08.png" alt="">
-                    </div>
+                    <?php
+                    $images = $product['thumbnail'] ? explode(',', $product['thumbnail']) : [$product['image']];
+                    foreach ($images as $img): ?>
+                        <div class="product-preview">
+                            <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/uploads/<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <!-- /Product main img -->
 
-            <!-- Product thumb imgs -->
-            <div class="col-md-2  col-md-pull-5">
+            <div class="col-md-2 col-md-pull-5">
                 <div id="product-imgs">
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product01.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product03.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product06.png" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product08.png" alt="">
-                    </div>
+                    <?php foreach ($images as $img): ?>
+                        <div class="product-preview">
+                            <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/uploads/<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
-            <!-- /Product thumb imgs -->
 
-            <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h2 class="product-name">Tên sản phẩm ở đây</h2>
+                    <h2 class="product-name"><?= htmlspecialchars($product['name']) ?></h2>
                     <div>
                         <div class="product-rating">
                             <i class="fa fa-star"></i>
@@ -75,10 +55,15 @@
                         <a class="review-link" href="#">10 Đánh giá | Thêm đánh giá của bạn</a>
                     </div>
                     <div>
-                        <h3 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h3>
-                        <span class="product-available">Còn hàng</span>
+                        <h3 class="product-price">
+                            $<?= number_format($product['price'], 2) ?>
+                            <?php if ($product['discount'] > 0): ?>
+                                <del class="product-old-price">$<?= number_format($product['price'] + $product['discount'], 2) ?></del>
+                            <?php endif; ?>
+                        </h3>
+                        <span class="product-available"><?= $product['total_quantity'] > 0 ? "Còn hàng" : "Hết hàng" ?></span>
                     </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p><?= htmlspecialchars($product['description']) ?></p>
 
                     <div class="product-options">
                         <label>
@@ -99,12 +84,21 @@
                         <div class="qty-label">
                             Số lượng
                             <div class="input-number">
-                                <input type="number">
+                                <input type="number" min="1" max="<?= $product['total_quantity'] ?>" value="1">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+                        <div class="add-to-cart">
+                            <form action="/cart/create" method="POST">
+                                <input type="hidden" name="product_id" value="<?= htmlspecialchars($product['id']) ?>">
+                                <input type="hidden" name="quantity" value="1">
+                                <button type="submit" class="add-to-cart-btn">
+                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                </button>
+                            </form>
+                        </div>
+
                     </div>
 
                     <ul class="product-btns">
@@ -128,6 +122,7 @@
 
                 </div>
             </div>
+
             <!-- /Chi tiết sản phẩm -->
 
             <!-- Tab sản phẩm -->

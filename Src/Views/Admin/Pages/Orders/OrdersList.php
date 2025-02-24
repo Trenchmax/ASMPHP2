@@ -1,7 +1,6 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-
-<?php 
+<?php
 $this->start('main_content');
 ?>
 
@@ -22,28 +21,38 @@ $this->start('main_content');
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <!-- <div class="d-flex align-items-center">
-                                    <a href="/admin/order-detail/">
-                                        <button type="button" class="btn btn-info btn-sm btn-icon-text mr-3">
-                                            Chi tiết
-                                            <i class="typcn typcn-edit btn-icon-append"></i>
-                                        </button>
+                        <?php foreach ($orders as $order): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($order['id']) ?></td>
+                                <td><?= htmlspecialchars($order['user_name']) ?></td>
+                                <td><?= htmlspecialchars($order['user_phone']) ?></td>
+                                <td><?= htmlspecialchars($order['address']) ?></td>
+                                <td><?= number_format($order['total_price'], 0, ',', '.') ?> VND</td>
+                                <td>
+                                    <?= $order['status'] == 1 ? 'Đã xử lý' : 'Chưa xử lý' ?>
+                                </td>
+                                <td>
+                                    <a href="/admin/orderDetails/<?= htmlspecialchars($order['id']) ?>" class="btn btn-info btn-sm">
+                                        Chi tiết
                                     </a>
-                                </div> -->
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="7" class="text-center">Không có đơn hàng.</td>
-                        </tr>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="7">
+                                    <strong>Sản phẩm:</strong>
+                                    <ul>
+                                        <?php foreach ($order['products'] as $product): ?>
+                                            <li style="list-style-type: none;">
+                                                <img src="<?= $_ENV['APP_URL'] ?>/public/Assets/uploads/<?= $product['image_name'] ?>" alt="<?= $product['image_name'] ?>" width="50">
+                                                <?= htmlspecialchars($product['product_name']) ?> (x<?= $product['quantity'] ?>)
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
+
                 </table>
             </div>
         </div>
@@ -51,6 +60,5 @@ $this->start('main_content');
 </div>
 
 <?php
-
 $this->stop();
-?>v
+?>

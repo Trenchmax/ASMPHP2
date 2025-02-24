@@ -1,4 +1,4 @@
-<?php $this->layout('Client/Components/Layout'); ?>
+<?php $this->layout('Client/Components/Layout' ); ?>
 
 <?php $this->start('main_content') ?>
 

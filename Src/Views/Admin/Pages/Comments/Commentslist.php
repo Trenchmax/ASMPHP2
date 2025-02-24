@@ -1,6 +1,5 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-
 <?php 
 $this->start('main_content');
 ?>
@@ -14,73 +13,55 @@ $this->start('main_content');
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Tên người Bình luận</th>
                             <th>Nội dung</th>
-                            <th>Ngày Và giờ</th>
+                            <th>Đánh giá</th>
                             <th>Trạng thái</th>
+                            <th>Ngày và giờ</th>
                             <th>ID sản phẩm</th>
                             <th>ID người dùng</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>Nội dung bình luận ở đây.</td>
-                            <td>2024-11-03 10:00</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>Hoạt động</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <a href="/admin/commentEdit/1" class="btn btn-success btn-sm btn-icon-text mr-3">
-                                        Sửa
-                                        <i class="typcn typcn-edit btn-icon-append"></i>
-                                    </a>
-                                    <a href="/admin/delete-comment/1" onclick="return confirm('Bạn chắc chứ?')"
-                                        class="btn btn-danger btn-sm btn-icon-text">
-                                        Xóa
-                                        <i class="typcn typcn-delete-outline btn-icon-append"></i>
-                                    </a>
-                                    <a href="/admin/approve-comment/1" class="btn btn-primary btn-sm btn-icon-text ml-3">
-                                        Duyệt
-                                        <i class="typcn typcn-tick-outline btn-icon-append"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Trần Thị B</td>
-                            <td>Nội dung bình luận thứ hai.</td>
-                            <td>2024-11-03 11:00</td>
-                            <td>0</td>
-                            <td>3</td>
-                            <td>Không hoạt động</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <a href="/admin/commentEdit/2" class="btn btn-success btn-sm btn-icon-text mr-3">
-                                        Sửa
-                                        <i class="typcn typcn-edit btn-icon-append"></i>
-                                    </a>
-                                    <a href="/admin/delete-comment/2" onclick="return confirm('Bạn chắc chứ?')"
-                                        class="btn btn-danger btn-sm btn-icon-text">
-                                        Xóa
-                                        <i class="typcn typcn-delete-outline btn-icon-append"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Thêm các bình luận khác ở đây -->
+                        <?php foreach ($comments as $comment): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($comment['id']) ?></td>
+                                <td><?= htmlspecialchars($comment['content']) ?></td>
+                                <td><?= htmlspecialchars($comment['rating']) ?></td>
+                                <td><?= $comment['status'] == 1 ? 'Hoạt động' : 'Không hoạt động' ?></td>
+                                <td><?= htmlspecialchars($comment['created_at']) ?></td>
+                                <td><?= htmlspecialchars($comment['product_id']) ?></td>
+                                <td><?= htmlspecialchars($comment['user_id']) ?></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <a href="/admin/commentEdit/<?= htmlspecialchars($comment['id']) ?>" class="btn btn-success btn-sm btn-icon-text mr-3">
+                                            Sửa
+                                            <i class="typcn typcn-edit btn-icon-append"></i>
+                                        </a>
+                                        <a href="/admin/delete-comment/<?= htmlspecialchars($comment['id']) ?>" onclick="return confirm('Bạn chắc chứ?')" class="btn btn-danger btn-sm btn-icon-text">
+                                            Xóa
+                                            <i class="typcn typcn-delete-outline btn-icon-append"></i>
+                                        </a>
+                                        <?php if ($comment['status'] == 0): ?>
+                                            <a href="/admin/approve-comment/<?= htmlspecialchars($comment['id']) ?>" class="btn btn-primary btn-sm btn-icon-text ml-3">
+                                                Duyệt
+                                                <i class="typcn typcn-tick-outline btn-icon-append"></i>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
+                <?php if (empty($comments)): ?>
+                    <h4 class="text-center text-danger">Không có dữ liệu</h4>
+                <?php endif; ?>
             </div>
         </div>
     </div>
 </div>
 
 <?php
-
 $this->stop();
 ?>

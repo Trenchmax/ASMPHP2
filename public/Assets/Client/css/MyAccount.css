@@ -1,0 +1,443 @@
+.account {
+  padding: 32px;
+}
+
+.account .container-fluid .account-sidebar-title {
+  background-color: var(--color-footer-trans);
+  height: 100px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.account .container-fluid .account-sidebar-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.account .container-fluid .account-sidebar-main {
+  height: 400px;
+  background-color: var(--color-footer-trans);
+  padding-top: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul {
+  padding: 0;
+  margin: 0;
+}
+
+.account .container-fluid .account-sidebar-main ul li {
+  margin-top: 12px;
+  padding: 12px;
+  list-style: none;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  font-weight: var(--fw-medium);
+  gap: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul li svg {
+  width: 30px;
+}
+
+.account .container-fluid .account-sidebar-main ul li a {
+  display: flex;
+  font-size: var(--fs-body);
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  width: 100%;
+}
+
+.account .container-fluid .account-sidebar-main ul li:hover {
+  margin-right: 32px;
+  background-color: white;
+}
+
+.account-info {
+  padding-left: 80px;
+}
+
+.account-info-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.account-info-form .form-group {
+  padding: 12px 0px;
+}
+
+.account-info-form .form-group .form-label {
+  font-weight: var(--fw-medium);
+}
+
+@media (max-width: 1024px) {
+  .account-info {
+    padding-left: 0px !important;
+  }
+}
+
+.change-password {
+  padding-left: 80px;
+}
+
+.change-password-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.change-password-form .form-group {
+  padding: 12px 0px;
+}
+
+.change-password-form .form-group .form-label {
+  font-weight: var(--fw-medium);
+}
+
+@media (max-width: 1024px) {
+  .change-password {
+    padding-left: 0px !important;
+  }
+}
+
+.address-info {
+  padding-left: 80px;
+}
+
+.address-info-add-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.address-info-add-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.address-info-add-modal-icon svg {
+  width: 130px;
+  color: var(--color-text-gray);
+}
+
+@media (max-width: 1024px) {
+  .address-info {
+    padding-left: 0px !important;
+  }
+}
+
+.account {
+  padding: 32px;
+}
+
+.account .container-fluid .account-sidebar-title {
+  background-color: var(--color-footer-trans);
+  height: 100px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.account .container-fluid .account-sidebar-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.account .container-fluid .account-sidebar-main {
+  height: 400px;
+  background-color: var(--color-footer-trans);
+  padding-top: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul {
+  padding: 0;
+  margin: 0;
+}
+
+.account .container-fluid .account-sidebar-main ul li {
+  margin-top: 12px;
+  padding: 12px;
+  list-style: none;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  font-weight: var(--fw-medium);
+  gap: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul li svg {
+  width: 30px;
+}
+
+.account .container-fluid .account-sidebar-main ul li a {
+  display: flex;
+  font-size: var(--fs-body);
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  width: 100%;
+}
+
+.account .container-fluid .account-sidebar-main ul li:hover {
+  margin-right: 32px;
+  background-color: white;
+}
+
+.order-info {
+  padding-left: 40px;
+}
+
+.order-info-add-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.order-info-add-modal-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-info-add-modal-icon svg {
+  width: 130px;
+  color: var(--color-text-gray);
+}
+
+.order-info-add-modal-show {
+  text-align: center;
+}
+
+.order-info-add-modal-show span {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-bold);
+}
+
+.order-info-add-modal-show p {
+  padding-top: 6px;
+  color: var(--color-text-dark);
+}
+
+.order-info-add-modal-show a {
+  background-color: var(--color-text-dark);
+  padding: 12px;
+  color: var(--color-primary-light);
+  font-size: var(--fs-h4);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.order-info-add-modal-show a svg {
+  width: 32px;
+}
+
+.width-form {
+  min-width: 700px;
+}
+
+.order-info-add-modal-2-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-info-add-modal-2-icon svg {
+  width: 130px;
+  color: var(--color-text-gray);
+}
+
+.order-info-add-modal-2-show {
+  text-align: center;
+}
+
+.order-info-add-modal-2-show span {
+  font-size: var(--fs-h4);
+  font-weight: var(--fw-bold);
+}
+
+.order-info-add-modal-2-show p {
+  padding-top: 6px;
+  color: var(--color-text-dark);
+}
+
+.order-info-add-modal-2-show a {
+  background-color: var(--color-text-dark);
+  padding: 12px;
+  color: var(--color-primary-light);
+  font-size: var(--fs-h4);
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.order-info-add-modal-2-show a svg {
+  width: 32px;
+}
+
+.width-form {
+  min-width: 700px;
+}
+
+@media (max-width: 1024px) {
+  .order-info {
+    padding-left: 0px !important;
+  }
+}
+
+.account {
+  padding: 32px;
+}
+
+.account .container-fluid .account-sidebar-title {
+  background-color: var(--color-footer-trans);
+  height: 100px;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.account .container-fluid .account-sidebar-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.account .container-fluid .account-sidebar-main {
+  height: 400px;
+  background-color: var(--color-footer-trans);
+  padding-top: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul {
+  padding: 0;
+  margin: 0;
+}
+
+.account .container-fluid .account-sidebar-main ul li {
+  margin-top: 12px;
+  padding: 12px;
+  list-style: none;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  font-weight: var(--fw-medium);
+  gap: 12px;
+}
+
+.account .container-fluid .account-sidebar-main ul li svg {
+  width: 30px;
+}
+
+.account .container-fluid .account-sidebar-main ul li a {
+  display: flex;
+  font-size: var(--fs-body);
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  width: 100%;
+}
+
+.account .container-fluid .account-sidebar-main ul li:hover {
+  margin-right: 32px;
+  background-color: white;
+}
+
+.order-info {
+  padding-left: 40px;
+}
+
+.order-info-add-title {
+  margin-left: 20px;
+}
+
+.order-info-add-title p {
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+}
+
+.order-info-add .tab-header {
+  display: flex;
+  align-items: center;
+  font-size: 24px;
+  font-weight: var(--fw-bold);
+}
+
+.order-info-add .tab-header .in-progess,
+.order-info-add .tab-header .complete {
+  padding: 12px;
+  border-bottom: 4px solid black;
+  margin-right: 10px;
+}
+
+.order-info-add .tab-header .complete {
+  margin-right: 0;
+}
+
+.fs {
+  font-size: 24px;
+}
+
+.order-info-add-click svg {
+  width: 30px;
+}
+
+.address-info-add-modal-show button a {
+  text-decoration: none;
+}
+
+.media-prod img {
+  width: 120px;
+}
+
+.code-order-list {
+  display: flex;
+  align-items: center;
+}
+
+.code-order-list a {
+  text-decoration: none;
+}
+
+.code-order-list .status-order {
+  text-align: right;
+}
+
+.content-order .items-prod-in-orders {
+  display: flex;
+  align-items: center;
+}
+
+.content-order .items-prod-in-orders .vendor-prod {
+  font-size: var(--fs-h5);
+  font-weight: var(--fw-semibold);
+}
+
+.list-order-page {
+  display: block;
+}
+
+.tab-content {
+  font-size: var(--fs-body);
+  display: block;
+}
+
+.wrap-price-quantity .price-prod {
+  margin-top: 20px;
+  font-size: var(--fs-h5);
+  font-weight: var(--fw-medium);
+}
+
+@media (max-width: 1024px) {
+  .order-info {
+    padding-left: 0px !important;
+  }
+}

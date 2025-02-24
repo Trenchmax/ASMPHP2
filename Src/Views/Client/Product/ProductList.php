@@ -1,7 +1,9 @@
 <?php $this->layout('Client/Components/Layout'); ?>
 
 
-<?php $this->start('main_content') ?>
+<?php $this->start('main_content');
+
+?>
 <!-- Insert nội dung vào đây -->
 
 
@@ -15,46 +17,55 @@
 		<div class="row">
 			<!-- ASIDE -->
 			<div id="aside" class="col-md-3">
+				<div class="aside">
+					<h3 class="aside-title">Categories</h3>
+					<div class="category-filter">
+						<?php
+						// Mảng danh mục từ database
+					
 
+						foreach ($categories as $category):
+						?>
+							<a href="/productCategory/<?= $category['id'] ?>" class="category-link">
+								<?= htmlspecialchars($category['name']) ?>
+								<small>(<?= $category['id'] ?>)</small>
+							</a>
+						<?php endforeach; ?>
+					</div>
+				</div>
 
 				<!-- aside Widget -->
 				<div class="aside">
 					<h3 class="aside-title">Sản phẩm bán chạy</h3>
-					<div class="product-widget">
-						<div class="product-img">
-							<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product01.png" alt="">
-						</div>
-						<div class="product-body">
-							<p class="product-category">Danh mục</p>
-							<h3 class="product-name"><a href="/productDetail">Tên sản phẩm ở đây</a></h3>
-							<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						</div>
-					</div>
 
-					<div class="product-widget">
-						<div class="product-img">
-							<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product02.png" alt="">
+					<?php foreach ($ramProduct as $product): ?>
+						<div class="product-widget">
+							<div class="product-img">
+								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/uploads/<?= $product['thumbnail'] ? explode(',', $product['thumbnail'])[0] : $product['image'] ?>"
+									alt="<?= htmlspecialchars($product['name']) ?>">
+							</div>
+							<div class="product-body">
+								<p class="product-category">Danh mục</p>
+								<h3 class="product-name">
+									<a href="/product/detail/<?= $product['id'] ?>"><?= htmlspecialchars($product['name']) ?></a>
+								</h3>
+								<h4 class="product-price">
+									$<?= number_format($product['price'], 2) ?>
+									<?php if ($product['discount'] > 0): ?>
+										<del class="product-old-price">$<?= number_format($product['price'] + $product['discount'], 2) ?></del>
+									<?php endif; ?>
+								</h4>
+							</div>
 						</div>
-						<div class="product-body">
-							<p class="product-category">Danh mục</p>
-							<h3 class="product-name"><a href="/productDetail">Tên sản phẩm ở đây</a></h3>
-							<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						</div>
-					</div>
-
-					<div class="product-widget">
-						<div class="product-img">
-							<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product03.png" alt="">
-						</div>
-						<div class="product-body">
-							<p class="product-category">Danh mục</p>
-							<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-							<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-						</div>
-					</div>
+					<?php endforeach; ?>
 				</div>
 				<!-- /aside Widget -->
 			</div>
+
+			<!-- CSS để làm đẹp -->
+	
+
+
 			<!-- /ASIDE -->
 
 			<!-- CỬA HÀNG -->
@@ -87,268 +98,35 @@
 
 				<!-- sản phẩm cửa hàng -->
 				<div class="row">
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product01.png" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
-									<span class="new">MỚI</span>
+					<?php if (!empty($products)) : ?>
+						<?php foreach ($products as $product) : ?>
+							<!-- sản phẩm -->
+							<div class="col-md-4 col-xs-6">
+								<div class="product">
+									<div class="product-img">
+										<?php
+										$image = !empty($product['thumbnail']) ? explode(',', $product['thumbnail'])[0] : $product['image'];
+										?>
+										<img class="imgPrimary" src="<?= $_ENV['APP_URL'] ?>/public/Assets/uploads/<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Danh mục <?= htmlspecialchars($product['category_id'] ?? 'N/A') ?></p>
+										<h3 class="product-name">
+											<a href="/product/detail/<?= htmlspecialchars($product['id']) ?>"><?= htmlspecialchars($product['name']) ?></a>
+										</h3>
+										<h4 class="product-price">
+											$<?= number_format((float)$product['price'], 2) ?>
+											<?php if (!empty($product['discount']) && $product['discount'] > 0) : ?>
+												<del class="product-old-price">$<?= number_format((float)($product['price'] + $product['discount']), 2) ?></del>
+											<?php endif; ?>
+										</h4>
+									</div>
 								</div>
 							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="/productDetail">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product02.png" alt="">
-								<div class="product-label">
-									<span class="new">MỚI</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product03.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<div class="clearfix visible-lg visible-md"></div>
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product04.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product05.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product06.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<div class="clearfix visible-lg visible-md visible-sm visible-xs"></div>
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product07.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product08.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
-
-
-					<div class="clearfix visible-sm visible-xs"></div>
-
-					<!-- sản phẩm -->
-					<div class="col-md-4 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="<?= $_ENV['APP_URL'] ?>/public/Assets/Client/img/product09.png" alt="">
-							</div>
-							<div class="product-body">
-								<p class="product-category">Danh mục</p>
-								<h3 class="product-name"><a href="#">Tên sản phẩm ở đây</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Thêm vào danh sách yêu thích</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">Thêm vào so sánh</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">Xem nhanh</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-							</div>
-						</div>
-					</div>
-					<!-- /sản phẩm -->
+						<?php endforeach; ?>
+					<?php else : ?>
+						<p>Không có sản phẩm nào.</p>
+					<?php endif; ?>
 				</div>
 				<!-- /sản phẩm cửa hàng -->
 

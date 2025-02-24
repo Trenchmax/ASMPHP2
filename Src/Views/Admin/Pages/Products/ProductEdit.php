@@ -1,91 +1,91 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-
-<?php 
+<?php
 $this->start('main_content');
 ?>
-
 <div class="col-12 grid-margin">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Chỉnh sửa sản phẩm</h4>
-            <form class="forms-sample" action="/admin/update-product/{id}" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="{id}">
-                <input type="hidden" name="method" value="POST">
+            
+            <?php if (!empty($_SESSION['errors'])): ?>
+                <div class="alert alert-danger">
+                    <ul>
+                        <?php foreach ($_SESSION['errors'] as $error): ?>
+                            <li><?php echo htmlspecialchars($error); ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <?php unset($_SESSION['errors']); ?>
+            <?php endif; ?>
+            
+            <?php if (!empty($_SESSION['success'])): ?>
+                <div class="alert alert-success">
+                    <?php echo htmlspecialchars($_SESSION['success']); ?>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+            <?php endif; ?>
+            
+            <form class="forms-sample" action="/admin/product/update/<?php echo htmlspecialchars($product['id']); ?>" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($product['id']); ?>">
 
                 <div class="form-group">
                     <label for="name">Tên sản phẩm</label>
-                    <input type="text" class="form-control" name="name" id="name" value="{name}" placeholder="Name">
+                    <input type="text" class="form-control" name="name" id="name" value="<?php echo htmlspecialchars($product['name']); ?>" placeholder="Tên sản phẩm">
                 </div>
 
                 <div class="form-group">
                     <label for="description">Mô tả sản phẩm</label>
-                    <textarea class="form-control" id="description" rows="4" name="description">{description}</textarea>
+                    <textarea class="form-control" id="description" rows="4" name="description"><?php echo htmlspecialchars($product['description']); ?></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="brand_id">Thương hiệu</label>
-                    <select readonly class="form-control" id="brand_id" name="brand_id">
-                        <option value="{brand_id}">{brand_name}</option>
-                        <option disabled value="{brand_id}">{brand_name}</option>
+                    <select class="form-control" id="brand_id" name="brand_id">
+                        <option value="<?php echo htmlspecialchars($product['brand_id']); ?>" selected><?php echo htmlspecialchars($product['brand_id']); ?></option>
+                        <?php foreach ($brands as $brand): ?>
+                            <option value="<?php echo htmlspecialchars($brand['id']); ?>"><?php echo htmlspecialchars($brand['name']); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="category_id">Phân loại sản phẩm</label>
-                    <select readonly class="form-control" id="category_id" name="category_id">
-                        <option value="{category_id}">{category_name}</option>
-                        <option disabled value="{category_id}">{category_name}</option>
+                    <select class="form-control" id="category_id" name="category_id">
+                        <option value="<?php echo htmlspecialchars($product['category_id']); ?>" selected><?php echo htmlspecialchars($product['category_id']); ?></option>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?php echo htmlspecialchars($category['id']); ?>"><?php echo htmlspecialchars($category['name']); ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="price">Giá tiền</label>
-                    <input type="number" class="form-control" name="price" id="price" value="{price}" placeholder="Price">
+                    <input type="number" class="form-control" name="price" id="price" value="<?php echo htmlspecialchars($product['price']); ?>" placeholder="Giá tiền">
                 </div>
 
                 <div class="form-group">
                     <label for="quantity">Số lượng</label>
-                    <input type="number" class="form-control" name="quantity" id="quantity" value="{quantity}" placeholder="Quantity">
-                </div>
-
-                <div class="form-group">
-                    <label for="discountRate">Giá giảm (%)</label>
-                    <input type="number" class="form-control" name="discountRate" id="discountRate" value="{discountRate}" placeholder="Discount Rate">
-                </div>
-
-                <div class="form-group">
-                    <label for="weight">Trọng lượng (kg)</label>
-                    <input type="number" class="form-control" name="weight" id="weight" value="{weight}" placeholder="Weight">
-                </div>
-
-                <div class="form-group">
-                    <label for="height">Chiều cao (cm)</label>
-                    <input type="number" class="form-control" name="height" id="height" value="{height}" placeholder="Height">
-                </div>
-
-                <div class="form-group">
-                    <label for="width">Chiều rộng (cm)</label>
-                    <input type="number" class="form-control" name="width" id="width" value="{width}" placeholder="Width">
+                    <input type="number" class="form-control" name="total_quantity" id="quantity" value="<?php echo htmlspecialchars($product['total_quantity']); ?>" placeholder="Số lượng">
                 </div>
 
                 <div class="form-group">
                     <label for="image">Hình ảnh</label>
                     <input type="file" name="image" class="form-control file-upload-info" placeholder="Upload Image">
-                    <img src="/public/uploads/{image}" alt="Current Image" width="100px">
+                    <img src="/public/uploads/<?php echo htmlspecialchars($product['image']); ?>" alt="Current Image" width="100px">
                 </div>
 
                 <div class="form-group">
                     <label for="thumbnail">Thumbnail</label>
                     <input type="file" name="thumbnail[]" multiple class="form-control file-upload-info" placeholder="Upload Thumbnail">
-                    <img src="/public/uploads/{thumbnail}" alt="Current Thumbnail" width="100px">
+                    <img src="/public/uploads/<?php echo htmlspecialchars($product['thumbnail']); ?>" alt="Current Thumbnail" width="100px">
                 </div>
 
                 <div class="form-group">
                     <label>Trạng thái</label>
                     <select class="form-control form-control-sm col-lg-2" name="status">
-                        <option value="1">Hoạt động</option>
-                        <option value="2">Không hoạt động</option>
+                        <option value="1" <?php echo ($product['status'] == 1 ? 'selected' : ''); ?>>Hoạt động</option>
+                        <option value="2" <?php echo ($product['status'] == 2 ? 'selected' : ''); ?>>Không hoạt động</option>
                     </select>
                 </div>
 
@@ -97,6 +97,5 @@ $this->start('main_content');
 </div>
 
 <?php
-
 $this->stop();
 ?>
