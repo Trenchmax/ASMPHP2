@@ -21,46 +21,50 @@ class UserController extends BaseController
     }
 
     public function create()
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $UserModel = new UserModel();
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $UserModel = new UserModel();
 
-            $data = [
-                'name' => trim($_POST['name'] ?? ''),
-                'firstname' => trim($_POST['firstname'] ?? ''),
-                'lastname' => trim($_POST['lastname'] ?? ''),
-                'email' => trim($_POST['email'] ?? ''),
-                'phone' => trim($_POST['phone'] ?? ''),
-                'password' => trim($_POST['password'] ?? ''),
-                'role' => filter_var($_POST['role'] ?? '', FILTER_VALIDATE_INT),
-                'status' => isset($_POST['status']) ? (int)$_POST['status'] : 1,
-            ];
+        $data = [
+            'name' => trim($_POST['name'] ?? ''),
+            'firstname' => trim($_POST['firstname'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'phone' => trim($_POST['phone'] ?? ''),
+            'password' => trim($_POST['password'] ?? ''),
+            'role' => filter_var($_POST['role'] ?? '', FILTER_VALIDATE_INT),
+            'status' => isset($_POST['status']) ? (int)$_POST['status'] : 1,
+        ];
 
-            $errors = UserValidate::validateUser($data);
+        $errors = UserValidate::validateUser($data);
 
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header("Location: /admin/create-user");
-                exit;
-            }
-
-            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-
-            $newUserId = $UserModel->createUser($data);
-
-            if ($newUserId) {
-                $_SESSION['success'] = "Thêm người dùng thành công!";
-                header("Location: /admin/users");
-                exit;
-            } else {
-                $_SESSION['errors'] = ["Thêm người dùng thất bại!"];
-                header("Location: /admin/create-user");
-                exit;
-            }
-        } else {
-            die("Phương thức không hợp lệ!");
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            $_SESSION['old_data'] = $data;  
+            header("Location: /admin/create-user");
+            exit;
         }
+
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        $newUserId = $UserModel->createUser($data);
+
+        if ($newUserId) {
+            $_SESSION['success'] = "Thêm người dùng thành công!";
+            unset($_SESSION['old_data']);  
+            header("Location: /admin/users");
+            exit;
+        } else {
+            $_SESSION['errors'] = ["Thêm người dùng thất bại!"];
+            $_SESSION['old_data'] = $data;  
+            header("Location: /admin/create-user");
+            exit;
+        }
+    } else {
+        die("Phương thức không hợp lệ!");
     }
+}
+
 
     public function edit($params)
     {
@@ -71,59 +75,63 @@ class UserController extends BaseController
     }
 
     public function update($params)
-    {
-        $id = $params['id'];
+{
+    $id = $params['id'];
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $UserModel = new UserModel();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $UserModel = new UserModel();
 
-            $user = $UserModel->getOne($id);
-            if (!$user) {
-                $_SESSION['errors'] = ["Người dùng không tồn tại!"];
-                header("Location: /admin/users");
-                exit;
-            }
-
-            $data = [
-                'firstname' => trim($_POST['firstname'] ?? ''),
-                'lastname' => trim($_POST['lastname'] ?? ''),
-                'email' => trim($_POST['email'] ?? ''),
-                'phone' => trim($_POST['phone'] ?? ''),
-                'name' => trim($_POST['name'] ?? ''),
-                'password' => $_POST['password'] ?? '', 
-                'role' => filter_var($_POST['role'] ?? '', FILTER_VALIDATE_INT),
-                'status' => isset($_POST['status']) ? (int)$_POST['status'] : 1,
-            ];
-
-            $errors = UserValidate::validateUser($data);
-
-            if (!empty($errors)) {
-                $_SESSION['errors'] = $errors;
-                header("Location: /admin/users/edit/$id");
-                exit;
-            }
-
-            if (empty($data['password'])) {
-                $data['password'] = $user['password'];
-            } else {
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
-            }
-
-            $updated = $UserModel->updateUser($id, $data);
-
-            if ($updated) {
-                $_SESSION['success'] = "Cập nhật người dùng thành công!";
-                header("Location: /admin/users");
-                exit;
-            } else {
-                $_SESSION['errors'] = ["Cập nhật người dùng thất bại!"];
-                header("Location: /admin/users/edit/$id");
-                exit;
-            }
-        } else {
-            die("Phương thức không hợp lệ!");
+        $user = $UserModel->getOne($id);
+        if (!$user) {
+            $_SESSION['errors'] = ["Người dùng không tồn tại!"];
+            header("Location: /admin/users");
+            exit;
         }
+
+        $data = [
+            'firstname' => trim($_POST['firstname'] ?? ''),
+            'lastname' => trim($_POST['lastname'] ?? ''),
+            'email' => trim($_POST['email'] ?? ''),
+            'phone' => trim($_POST['phone'] ?? ''),
+            'name' => trim($_POST['name'] ?? ''),
+            'password' => $_POST['password'] ?? '',
+            'role' => filter_var($_POST['role'] ?? '', FILTER_VALIDATE_INT),
+            'status' => isset($_POST['status']) ? (int)$_POST['status'] : 1,
+        ];
+
+        $errors = UserValidate::validateUser($data);
+
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            $_SESSION['old_data'] = $data; 
+            header("Location: /admin/users/edit/$id");
+            exit;
+        }
+
+        if (empty($data['password'])) {
+            $data['password'] = $user['password'];
+        } else {
+            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        $updated = $UserModel->updateUser($id, $data);
+
+        if ($updated) {
+            $_SESSION['success'] = "Cập nhật người dùng thành công!";
+            unset($_SESSION['old_data']);  
+            header("Location: /admin/users");
+            exit;
+        } else {
+            $_SESSION['errors'] = ["Cập nhật người dùng thất bại!"];
+            $_SESSION['old_data'] = $data; 
+            header("Location: /admin/users/edit/$id");
+            exit;
+        }
+    } else {
+        die("Phương thức không hợp lệ!");
     }
+}
+
 
     public function delete($id)
     {

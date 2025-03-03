@@ -1,62 +1,50 @@
-<?php $this->layout('Client/Components/Layout' ); ?>
+<?php $this->layout('Client/Components/Layout'); ?>
 
-<?php $this->start('main_content');
+<?php $this->start('main_content'); ?>
 
-
-?>
 <!-- Insert nội dung vào đây -->
 
 <div id="breadcrumb" class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <h3 class="breadcrumb-header">Thanh toán</h3>
                 <ul class="breadcrumb-tree">
-                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="/">Trang chủ</a></li>
                     <li class="active">Thanh toán</li>
                 </ul>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
-<!-- /BREADCRUMB -->
 
-<!-- SECTION -->
 <div class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <form action="/checkout/process" method="POST">
                 <div class="col-md-7">
-                    <!-- Chi tiết thanh toán -->
                     <div class="billing-details">
                         <div class="section-title">
                             <h3 class="title">Địa chỉ thanh toán</h3>
                         </div>
                         <div class="form-group">
                             <input class="input" type="text" name="first_name" placeholder="Họ"
-                                value="<?= isset($_SESSION['user']['firstname']) ? htmlspecialchars($_SESSION['user']['firstname']) : '' ?>">
+                                value="<?= htmlspecialchars($_SESSION['user']['firstname'] ?? '') ?>">
                         </div>
                         <div class="form-group">
                             <input class="input" type="text" name="last_name" placeholder="Tên"
-                                value="<?= isset($_SESSION['user']['lastname']) ? htmlspecialchars($_SESSION['user']['lastname']) : '' ?>">
+                                value="<?= htmlspecialchars($_SESSION['user']['lastname'] ?? '') ?>">
                         </div>
                         <div class="form-group">
                             <input class="input" type="email" name="email" placeholder="Email"
-                                value="<?= isset($_SESSION['user']['email']) ? htmlspecialchars($_SESSION['user']['email']) : '' ?>">
+                                value="<?= htmlspecialchars($_SESSION['user']['email'] ?? '') ?>">
                         </div>
                         <div class="form-group">
                             <input class="input" type="tel" name="phone" placeholder="Số điện thoại"
-                                value="<?= isset($_SESSION['user']['phone']) ? htmlspecialchars($_SESSION['user']['phone']) : '' ?>">
+                                value="<?= htmlspecialchars($_SESSION['user']['phone'] ?? '') ?>">
                         </div>
                     </div>
 
-                    <!-- Địa chỉ giao hàng -->
                     <div class="shiping-details">
                         <div class="section-title">
                             <h3 class="title">Địa chỉ giao hàng</h3>
@@ -74,7 +62,7 @@
                                             <input type="radio" id="address-<?php echo $index; ?>" name="shipping_address" value="<?php echo $address['id']; ?>">
                                             <label for="address-<?php echo $index; ?>">
                                                 <span></span>
-                                                <?php echo $address['address'] . ', ' . $address['ward_name'] . ', ' . $address['district_name'] . ', ' . $address['province_name']; ?>
+                                                <?= $address['address'] . ', ' . $address['ward_name'] . ', ' . $address['district_name'] . ', ' . $address['province_name']; ?>
                                             </label>
                                         </div>
                                     <?php endforeach; ?>
@@ -86,7 +74,6 @@
                     </div>
                 </div>
 
-                <!-- Chi tiết đơn hàng -->
                 <div class="col-md-5 order-details">
                     <div class="section-title text-center">
                         <h3 class="title">Đơn hàng của bạn</h3>
@@ -121,17 +108,31 @@
                         </div>
                         <div class="order-col">
                             <div><strong>TỔNG CỘNG</strong></div>
-                            <div><strong class="order-total">$<?= number_format($totalPrice, 2) ?></strong></div>
+                            <div><strong class="order-total"><?= number_format($totalPrice, ) ?>VNĐ</strong></div>
                         </div>
                     </div>
 
                     <!-- Phương thức thanh toán -->
                     <div class="payment-method">
                         <div class="input-radio">
-                            <input type="radio" name="payment_method" id="payment-1" value="bank_transfer" checked>
+                            <input type="radio" name="payment_method" id="payment-1" value="cod" checked>
                             <label for="payment-1">
                                 <span></span>
-                                Chuyển khoản ngân hàng trực tiếp
+                                Thanh toán khi nhận hàng (COD)
+                            </label>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment_method" id="payment-2" value="bank_transfer">
+                            <label for="payment-2">
+                                <span></span>
+                                Chuyển khoản ngân hàng
+                            </label>
+                        </div>
+                        <div class="input-radio">
+                            <input type="radio" name="payment_method" id="payment-3" value="vnpay">
+                            <label for="payment-3">
+                                <span></span>
+                                Thanh toán qua VNPay QR
                             </label>
                         </div>
                     </div>
@@ -141,12 +142,8 @@
                     <button type="submit" class="primary-btn order-submit">Đặt hàng</button>
                 </div>
             </form>
-
-            <!-- /Chi tiết đơn hàng -->
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
 
 <?php $this->stop() ?>

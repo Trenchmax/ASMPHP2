@@ -58,12 +58,12 @@
                         <h3 class="product-price">
                             $<?= number_format($product['price'], 2) ?>
                             <?php if ($product['discount'] > 0): ?>
-                                <del class="product-old-price">$<?= number_format($product['price'] + $product['discount'], 2) ?></del>
+                                <del class="product-old-price"><?= number_format($product['price'] + $product['discount'], 2) ?> VNĐ</del>
                             <?php endif; ?>
                         </h3>
                         <span class="product-available"><?= $product['total_quantity'] > 0 ? "Còn hàng" : "Hết hàng" ?></span>
                     </div>
-                    <p><?= htmlspecialchars($product['description']) ?></p>
+                    <!-- <p><?= htmlspecialchars($product['description']) ?></p> -->
 
                     <div class="product-options">
                         <label>
@@ -142,10 +142,12 @@
                         <div id="tab1" class="tab-pane fade in active">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p><?php echo html_entity_decode($product['description'] ?? ''); ?></p>
+
                                 </div>
                             </div>
                         </div>
+
                         <!-- /tab1 -->
 
                         <!-- tab2 -->

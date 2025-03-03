@@ -124,4 +124,22 @@ class OrderModel extends BaseModel
             return false;
         }
     }
+    public function updateOrderStatus($orderId, $status)
+    {
+        try {
+            $sql = "UPDATE orders SET status = ?, updated_at = NOW() WHERE id = ?";
+
+            $conn = $this->_conn->MySQLi();
+            $stmt = $conn->prepare($sql);
+            if (!$stmt) throw new Exception("Lỗi prepare statement: " . $conn->error);
+
+            $stmt->bind_param('ii', $status, $orderId);
+            $result = $stmt->execute();
+
+            return $result;
+        } catch (Throwable $e) {
+            error_log('Lỗi cập nhật trạng thái đơn hàng: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

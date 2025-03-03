@@ -36,8 +36,11 @@ $this->start('main_content');
 
                 <div class="form-group">
                     <label for="description">Mô tả sản phẩm</label>
-                    <textarea class="form-control" id="description" rows="4" name="description"><?php echo htmlspecialchars($_POST['description'] ?? ''); ?></textarea>
+                    <textarea class="form-control" id="description" rows="4" name="description">
+        <?php echo htmlspecialchars($_POST['description'] ?? ''); ?>
+    </textarea>
                 </div>
+
 
                 <div class="form-group">
                     <label for="brand_id">Thương hiệu</label>
@@ -99,6 +102,11 @@ $this->start('main_content');
     </div>
 </div>
 
+<script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+
+<script>
+    CKEDITOR.replace('description');
+</script>
 <?php
 $this->stop();
 ?>

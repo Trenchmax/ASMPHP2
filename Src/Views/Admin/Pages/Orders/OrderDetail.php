@@ -62,10 +62,17 @@ $this->start('main_content');
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Trạng thái</label>
                                     <div class="col-sm-9">
-                                        <input disabled type="text" class="form-control" name="status" value="<?= $orderData['order_status'] == 1 ? 'Đã xử lý' : 'Chưa xử lý' ?>" />
+                                        <select id="orderStatus" class="form-control" onchange="updateOrderStatus(<?= $orderData['order_id'] ?>, this.value)">
+                                            <option value="0" <?= $orderData['order_status'] == 0 ? 'selected' : '' ?>>Chưa xử lý</option>
+                                            <option value="1" <?= $orderData['order_status'] == 1 ? 'selected' : '' ?>>Đã xử lý</option>
+                                            <option value="2" <?= $orderData['order_status'] == 2 ? 'selected' : '' ?>>Đang giao</option>
+                                            <option value="3" <?= $orderData['order_status'] == 3 ? 'selected' : '' ?>>Đã hoàn thành</option>
+                                            <option value="4" <?= $orderData['order_status'] == 4 ? 'selected' : '' ?>>Đã hủy</option>
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div>  
+
                         </div>
 
                         <div class="table-responsive">
@@ -107,5 +114,27 @@ $this->start('main_content');
         </div>
     </div>
 </div>
+<script>
+    function updateOrderStatus(orderId, newStatus) {
+        if (!confirm("Bạn có chắc muốn cập nhật trạng thái đơn hàng?")) return;
+
+        fetch("/admin/orders/updateStatus", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    order_id: orderId,
+                    status: newStatus
+                })
+            })
+            .then(response => response.json())  
+            .then(data => {
+                alert(data.message);
+                if (data.status === "success") location.reload();
+            })
+            .catch(error => console.error("Lỗi:", error));
+    }
+</script>
 
 <?php $this->stop(); ?>

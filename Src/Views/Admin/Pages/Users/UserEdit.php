@@ -30,6 +30,7 @@
                     <form class="form-sample" action="/admin/user/update/<?= $users['id'] ?>" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="<?= $users['id'] ?>">
                         <input type="hidden" name="method" value="POST">
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? '' ?>">
 
                         <p class="card-description">Thông tin cá nhân</p>
                         <div class="row">
@@ -37,7 +38,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Họ</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="lastname" value="<?= $_POST['lastname'] ?? $users['lastname'] ?>" />
+                                        <input type="text" class="form-control" name="lastname"
+                                            value="<?= $_SESSION['old_data']['lastname'] ?? $users['lastname'] ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +47,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Tên</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="firstname" value="<?= $_POST['firstname'] ?? $users['firstname'] ?>" />
+                                        <input type="text" class="form-control" name="firstname"
+                                            value="<?= $_SESSION['old_data']['firstname'] ?? $users['firstname'] ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +59,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
-                                        <input type="email" class="form-control" name="email" value="<?= $_POST['email'] ?? $users['email'] ?>" />
+                                        <input type="email" class="form-control" name="email"
+                                            value="<?= $_SESSION['old_data']['email'] ?? $users['email'] ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +68,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Số điện thoại</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="phone" value="<?= $_POST['phone'] ?? $users['phone'] ?>" />
+                                        <input type="text" class="form-control" name="phone"
+                                            value="<?= $_SESSION['old_data']['phone'] ?? $users['phone'] ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +80,8 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Username</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control" name="name" value="<?= $_POST['name'] ?? $users['name'] ?>" />
+                                        <input type="text" class="form-control" name="name"
+                                            value="<?= $_SESSION['old_data']['name'] ?? $users['name'] ?>" />
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +102,8 @@
                                     <label class="col-sm-3 col-form-label">Role</label>
                                     <div class="col-sm-12">
                                         <select class="form-control" name="role">
-                                            <option value="1" <?= (isset($_POST['role']) && $_POST['role'] == 1) || $users['role'] == 1 ? 'selected' : '' ?>>Client</option>
-                                            <option value="2" <?= (isset($_POST['role']) && $_POST['role'] == 2) || $users['role'] == 2 ? 'selected' : '' ?>>Admin</option>
+                                            <option value="1" <?= (isset($_SESSION['old_data']['role']) && $_SESSION['old_data']['role'] == 1) || $users['role'] == 1 ? 'selected' : '' ?>>Client</option>
+                                            <option value="2" <?= (isset($_SESSION['old_data']['role']) && $_SESSION['old_data']['role'] == 2) || $users['role'] == 2 ? 'selected' : '' ?>>Admin</option>
                                         </select>
                                     </div>
                                 </div>
@@ -108,6 +114,9 @@
                             <button type="submit" class="btn btn-primary" name="submit">Cập nhật</button>
                         </div>
                     </form>
+
+                    <?php unset($_SESSION['old_data']);   ?>
+
                 </div>
             </div>
         </div>

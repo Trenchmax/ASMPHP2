@@ -44,7 +44,7 @@ class BrandController extends BaseController
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $BrandModel = new BrandModel();
-            $uploadDir = realpath(__DIR__ . '/../../../public/Assets/uploads/brands') . DIRECTORY_SEPARATOR;
+            $uploadDir = realpath(__DIR__ . '/../../../public/Assets/uploads') . DIRECTORY_SEPARATOR;
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
@@ -55,7 +55,7 @@ class BrandController extends BaseController
             $status = isset($_POST['status']) ? (int)$_POST['status'] : 1;
 
             require_once __DIR__ . '/../../Validations/Admin/BrandValidate.php';
-            $errors = \Src\Validations\Admin\BrandValidate::validateCreate($_POST);
+            $errors = $brandModel->validateCreate($_POST);
 
             if (!empty($errors)) {
                 $_SESSION['error'] = $errors;
@@ -127,7 +127,7 @@ class BrandController extends BaseController
             $status = isset($_POST['status']) ? (int)$_POST['status'] : 1;
 
             require_once __DIR__ . '/../../Validations/Admin/BrandValidate.php';
-            $errors = \Src\Validations\Admin\BrandValidate::validateCreate($_POST);
+            $errors = $brandModel->validateCreate($_POST);
 
             if (!empty($errors)) {
                 $_SESSION['error'] = $errors;

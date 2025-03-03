@@ -11,6 +11,7 @@ use Src\Controllers\Client\AboutController;
 use Src\Controllers\Client\ContactController;
 use Src\Controllers\Client\OrderController;
 use Src\Controllers\Client\AuthController;
+use Src\Helpers\NotFoundHelper;
 use Src\Controllers\Client\UserController as uerCon;
 use Src\Controllers\Admin\DashboardController;
 use Src\Controllers\Admin\VouchersController;
@@ -44,6 +45,7 @@ $dotenv->load();
 $dispatcher = FastRoute\simpleDispatcher(function(RouteCollector $r) {
     $r->addRoute('GET', '/home', [HomeController::class, 'show']);
     $r->addRoute('GET', '/', [HomeController::class, 'show']);
+    $r->addRoute('GET', '/404', [NotFoundHelper::class, 'show']);
     $r->addRoute('GET', '/productList', [ProductController::class, 'show']);
     $r->addRoute('GET', '/productCategory/{id}', [ProductController::class, 'showByCategory']);
     $r->addRoute('GET', '/product/detail/{id}', [ProductController::class, 'detail']);
@@ -66,6 +68,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(RouteCollector $r) {
     $r->addRoute('POST', '/cart/create', [CartController::class, 'store']);
     $r->addRoute('POST', '/checkout/process', [CheckoutController::class, 'processCheckout']);
     $r->addRoute('POST', '/cancel/order/{id}', [OrderController::class, 'cancel']);
+ 
 
     $r->get('/admin', [DashboardController::class, 'show']);
     $r->get('/admin/dashboard', [DashboardController::class, 'show']);
@@ -93,6 +96,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(RouteCollector $r) {
     $r->get('/admin/comments', [CommentController::class, 'show']);
     $r->get('/admin/orders', [OrdersController::class, 'show']);
     $r->get('/admin/orderDetails/{id}', [OrdersController::class, 'detail']);
+    $r->post('/admin/orders/updateStatus', [OrdersController::class, 'updateStatus']);
 
     $r->post('/admin/category/create', [CategoryController::class, 'create']);
     $r->post('/admin/category/update/{id}', [CategoryController::class, 'update']);
@@ -133,9 +137,11 @@ $uri = rawurldecode($uri);
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::NOT_FOUND:
-        // ... 404 Not Found
-        echo 'Not Found';
-        break;
+        http_response_code(404);
+        header("Location: /404");
+        exit;
+    
+    
     case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
         $allowedMethods = $routeInfo[1];
         echo 'Forbidden Method';

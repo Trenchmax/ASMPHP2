@@ -8,7 +8,7 @@
             <div class="card-body">
                 <h4 class="card-title">Thêm người dùng</h4>
 
-                <!-- Hiển thị thông báo lỗi -->
+               
                 <?php if (!empty($_SESSION['errors'])) : ?>
                     <div class="alert alert-danger">
                         <ul>
@@ -20,7 +20,7 @@
                     <?php unset($_SESSION['errors']); ?>
                 <?php endif; ?>
 
-                <!-- Hiển thị thông báo thành công -->
+       
                 <?php if (!empty($_SESSION['success'])) : ?>
                     <div class="alert alert-success">
                         <?= htmlspecialchars($_SESSION['success']); ?>
@@ -37,7 +37,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Họ</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="lastname" placeholder="Nhập họ" value="<?= $_POST['lastname'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="lastname" placeholder="Nhập họ"
+                                        value="<?= $_SESSION['old_data']['lastname'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -45,7 +46,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tên</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="firstname" placeholder="Nhập tên" value="<?= $_POST['firstname'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="firstname" placeholder="Nhập tên"
+                                        value="<?= $_SESSION['old_data']['firstname'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -56,7 +58,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Email</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="email" placeholder="Nhập email" value="<?= $_POST['email'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="email" placeholder="Nhập email"
+                                        value="<?= $_SESSION['old_data']['email'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -64,7 +67,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Số điện thoại</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại" value="<?= $_POST['phone'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại"
+                                        value="<?= $_SESSION['old_data']['phone'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -75,7 +79,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Tên của bạn</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" name="name" placeholder="Nhập username" value="<?= $_POST['name'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="name" placeholder="Nhập username"
+                                        value="<?= $_SESSION['old_data']['name'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -95,7 +100,8 @@
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label">Địa chỉ chi tiết</label>
                                 <div class="col-sm-12">
-                                    <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ chi tiết" value="<?= $_POST['address'] ?? '' ?>" />
+                                    <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ chi tiết"
+                                        value="<?= $_SESSION['old_data']['address'] ?? '' ?>" />
                                 </div>
                             </div>
                         </div>
@@ -104,8 +110,8 @@
                                 <label class="col-sm-3 col-form-label">Role</label>
                                 <div class="col-sm-12">
                                     <select class="form-control" name="role" id="role">
-                                        <option value="1" <?= (isset($_POST['role']) && $_POST['role'] == 1) ? 'selected' : '' ?>>Client</option>
-                                        <option value="2" <?= (isset($_POST['role']) && $_POST['role'] == 2) ? 'selected' : '' ?>>Admin</option>
+                                        <option value="1" <?= (isset($_SESSION['old_data']['role']) && $_SESSION['old_data']['role'] == 1) ? 'selected' : '' ?>>Client</option>
+                                        <option value="2" <?= (isset($_SESSION['old_data']['role']) && $_SESSION['old_data']['role'] == 2) ? 'selected' : '' ?>>Admin</option>
                                     </select>
                                 </div>
                             </div>
@@ -116,6 +122,10 @@
                         <button type="submit" class="btn btn-primary" name="submit">Thêm</button>
                     </div>
                 </form>
+
+                <?php unset($_SESSION['old_data']);  
+                ?>
+
 
             </div>
         </div>

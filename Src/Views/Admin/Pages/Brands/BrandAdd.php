@@ -1,6 +1,6 @@
 <?php $this->layout('Admin/Layouts/Layout') ?>
 
-<?php 
+<?php
 $this->start('main_content');
 ?>
 
@@ -8,10 +8,11 @@ $this->start('main_content');
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Thêm Thương hiệu</h4>
-            
+
             <?php if (isset($_SESSION['success'])): ?>
                 <div class="alert alert-success" id="alert-success">
-                    <?= $_SESSION['success']; unset($_SESSION['success']); ?>
+                    <?= $_SESSION['success'];
+                    unset($_SESSION['success']); ?>
                 </div>
             <?php endif; ?>
 
@@ -20,16 +21,19 @@ $this->start('main_content');
                     <ul>
                         <?php foreach ($_SESSION['errors'] as $error): ?>
                             <li><?= $error; ?></li>
-                        <?php endforeach; unset($_SESSION['errors']); ?>
+                        <?php endforeach;
+                        unset($_SESSION['errors']); ?>
                     </ul>
                 </div>
             <?php endif; ?>
 
             <form action="/admin/brand/create" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-                
+
                 <div class="form-group">
                     <label>Tên Thương hiệu <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control form-control-lg" name="name" id="name" placeholder="Nhập tên thương hiệu" required>
+                    <input type="text" class="form-control form-control-lg" name="name" id="name"
+                        value="<?= htmlspecialchars($_POST['name'] ?? '') ?>"
+                        placeholder="Nhập tên thương hiệu" required>
                     <small id="nameError" class="text-danger d-none">Vui lòng nhập tên thương hiệu!</small>
                 </div>
 
@@ -41,20 +45,22 @@ $this->start('main_content');
 
                 <div class="form-group">
                     <label>Mô tả</label>
-                    <input type="text" class="form-control form-control-lg" name="description" id="description">
+                    <input type="text" class="form-control form-control-lg" name="description" id="description"
+                        value="<?= htmlspecialchars($_POST['description'] ?? '') ?>">
                     <small id="descError" class="text-danger d-none">Mô tả không được vượt quá 500 ký tự!</small>
                 </div>
 
                 <div class="form-group">
                     <label>Trạng thái</label>
                     <select class="form-control form-control-sm col-lg-2" name="status">
-                        <option value="1">Hoạt động</option>
-                        <option value="0">Không hoạt động</option>
+                        <option value="1" <?= isset($_POST['status']) && $_POST['status'] == '1' ? 'selected' : '' ?>>Hoạt động</option>
+                        <option value="0" <?= isset($_POST['status']) && $_POST['status'] == '0' ? 'selected' : '' ?>>Không hoạt động</option>
                     </select>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Thêm</button>
             </form>
+
         </div>
     </div>
 </div>

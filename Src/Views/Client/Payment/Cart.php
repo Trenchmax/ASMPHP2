@@ -49,7 +49,7 @@
                             </div>
                             <div class="one-eight text-center">
                                 <div class="display-tc">
-                                    <span class="price">$<?= number_format($item['discounted_price'], 2) ?></span>
+                                    <span class="price"><?= number_format($item['discounted_price']) ?> VNĐ</span>
                                 </div>
                             </div>
                             <div class="one-eight text-center">
@@ -60,7 +60,7 @@
                             </div>
                             <div class="one-eight text-center">
                                 <div class="display-tc">
-                                    <span class="price">$<?= number_format($item['total_price'], 2) ?></span>
+                                    <span class="price"><?= number_format($item['total_price']) ?> VNĐ</span>
                                 </div>
                             </div>
                             <div class="one-eight text-center">

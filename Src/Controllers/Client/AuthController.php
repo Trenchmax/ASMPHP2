@@ -4,6 +4,7 @@ namespace Src\Controllers\Client;
 
 use Src\Controllers\BaseController;
 use Src\Models\Client\UserModel;
+use Src\Helpers\Client\Mailer;
 
 class AuthController extends BaseController
 {
@@ -56,6 +57,18 @@ class AuthController extends BaseController
         ];
 
         if ($userModel->registerUser($data)) {
+            $email = $_POST['email'];
+            $name = trim($_POST['firstname'] . ' ' . $_POST['lastname']);
+            $subject = "Xác nhận đăng ký tài khoản";
+            $body = "
+                <h2>Chào $name,</h2>
+                <p>Bạn đã đăng ký tài khoản thành công!</p>
+                <p>Email của bạn: <b>$email</b></p>
+                <p>Cảm ơn bạn đã tham gia.</p>
+            ";
+
+            Mailer::sendEmail($email, $name, $subject, $body);
+
             header("Location: /loginForm");
             exit;
         } else {
@@ -80,15 +93,15 @@ class AuthController extends BaseController
 
         $user = $userModel->loginUser($email, $password);
 
-        if ($user && isset($user['id'])) {  
+        if ($user && isset($user['id'])) {
             $_SESSION['user'] = $user;
 
             header("Location: /");
             exit;
         }
 
-        var_dump($email, $password, $user);
-        //    header("Location: /loginForm?error=" . urlencode("Sai email hoặc mật khẩu!"));
+
+        header("Location: /loginForm?error=" . urlencode("Sai email hoặc mật khẩu!"));
         exit;
     }
 
